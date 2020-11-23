@@ -64,7 +64,7 @@ namespace RTSCamera.Config
             foreach (GameKeyGroupVM group in Groups)
                 group.OnDone();
             foreach (KeyValuePair<GameKey, InputKey> keyValuePair in _keysToChangeOnDone)
-                keyValuePair.Key.PrimaryKey.ChangeKey(keyValuePair.Value);
+                keyValuePair.Key.ControllerKey.ChangeKey(keyValuePair.Value);
             _config.Serialize();
         }
 

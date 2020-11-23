@@ -37,7 +37,7 @@ namespace RTSCamera.View
         }
         private void OnPreSwitchTeam()
         {
-            dataSource.CloseToggleOrder();
+            dataSource.TryCloseToggleOrder();
             FinalizeViewAndVM();
         }
 
@@ -109,12 +109,12 @@ namespace RTSCamera.View
                     _siegeMissionView.OnDeploymentFinish += OnDeploymentFinish;
                 _deploymentPointDataSources = new List<DeploymentSiegeMachineVM>();
             }
-            dataSource = new MissionOrderVM(Mission, MissionScreen.CombatCamera, IsDeployment ? _siegeDeploymentHandler.DeploymentPoints.ToList() : new List<DeploymentPoint>(), ToggleScreenRotation, IsDeployment, MissionScreen.GetOrderFlagPosition, RefreshVisuals, SetSuspendTroopPlacer, OnActivateToggleOrder, OnDeactivateToggleOrder);
+            dataSource = new MissionOrderVM(MissionScreen.CombatCamera, IsDeployment ? _siegeDeploymentHandler.DeploymentPoints.ToList() : new List<DeploymentPoint>(), new Action<bool>(this.ToggleScreenRotation), IsDeployment, MissionScreen.GetOrderFlagPosition, RefreshVisuals, new ToggleOrderPositionVisibilityDelegate(this.SetSuspendTroopPlacer), OnActivateToggleOrder, OnDeactivateToggleOrder, new OnToggleActivateOrderStateDelegate(this.OnTransferFinished), false);
             if (IsDeployment)
             {
                 foreach (DeploymentPoint deploymentPoint in _siegeDeploymentHandler.DeploymentPoints)
                 {
-                    DeploymentSiegeMachineVM deploymentSiegeMachineVm = new DeploymentSiegeMachineVM(deploymentPoint, null, MissionScreen.CombatCamera, dataSource.OnRefreshSelectedDeploymentPoint, dataSource.OnEntityHover, false);
+                    DeploymentSiegeMachineVM deploymentSiegeMachineVm = new DeploymentSiegeMachineVM(deploymentPoint, null, MissionScreen.CombatCamera, dataSource.DeploymentController.OnRefreshSelectedDeploymentPoint, dataSource.DeploymentController.OnEntityHover, false);
                     Vec3 origin = deploymentPoint.GameEntity.GetFrame().origin;
                     for (int index = 0; index < deploymentPoint.GameEntity.ChildCount; ++index)
                     {
@@ -161,7 +161,7 @@ namespace RTSCamera.View
         private void OnDeploymentFinish()
         {
             IsDeployment = false;
-            dataSource.FinalizeDeployment();
+            dataSource.DeploymentController.FinalizeDeployment();
             _deploymentPointDataSources.Clear();
             _orderTroopPlacer.SuspendTroopPlacer = true;
             MissionScreen.SetOrderFlagVisibility(false);
@@ -172,14 +172,14 @@ namespace RTSCamera.View
 
         public override bool OnEscape()
         {
-            return dataSource.CloseToggleOrder();
+            return dataSource.TryCloseToggleOrder();
         }
 
         public override void OnMissionScreenTick(float dt)
         {
             base.OnMissionScreenTick(dt);
             TickInput(dt);
-            dataSource.Tick(dt);
+            dataSource.Update();
             if (dataSource.IsToggleOrderShown)
             {
                 if (_orderTroopPlacer.SuspendTroopPlacer && dataSource.ActiveTargetState == 0)
@@ -230,7 +230,7 @@ namespace RTSCamera.View
         {
             if (!isInitialized || !agent.IsHuman)
                 return;
-            dataSource.AddTroops(agent);
+            dataSource.TroopController.AddTroops(agent);
         }
 
         public override void OnAgentRemoved(
@@ -242,7 +242,7 @@ namespace RTSCamera.View
             base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, killingBlow);
             if (!affectedAgent.IsHuman)
                 return;
-            dataSource.RemoveTroops(affectedAgent);
+            dataSource.TroopController.RemoveTroops(affectedAgent);
         }
 
         private IOrderable GetFocusedOrderableObject()
@@ -260,12 +260,12 @@ namespace RTSCamera.View
         {
             if (gauntletLayer.HitTest())
                 return;
-            dataSource.OnEntityHover(hoveredEntity);
+            dataSource.DeploymentController.OnEntityHover(hoveredEntity);
         }
 
         void ISiegeDeploymentView.OnEntitySelection(GameEntity selectedEntity)
         {
-            dataSource.OnEntitySelect(selectedEntity);
+            dataSource.DeploymentController.OnEntitySelect(selectedEntity);
         }
 
         private void ToggleScreenRotation(bool isLocked)
@@ -286,15 +286,18 @@ namespace RTSCamera.View
             }
         }
 
+        public OnToggleActivateOrderStateDelegate setSuspendTroopPlacer { get; private set; }
+        public OnToggleActivateOrderStateDelegate OnTransferFinished { get; private set; }
+
         private void TickInput(float dt)
         {
             if (dataSource.IsToggleOrderShown)
             {
-                if (dataSource.IsTransferActive && gauntletLayer.Input.IsHotKeyReleased("Exit"))
-                    dataSource.IsTransferActive = false;
-                if (dataSource.IsTransferActive != _isTransferEnabled)
+                if (dataSource.TroopController.IsTransferActive && gauntletLayer.Input.IsHotKeyReleased("Exit"))
+                    dataSource.TroopController.IsTransferActive = false;
+                if (dataSource.TroopController.IsTransferActive != _isTransferEnabled)
                 {
-                    _isTransferEnabled = dataSource.IsTransferActive;
+                    _isTransferEnabled = dataSource.TroopController.IsTransferActive;
                     if (!_isTransferEnabled)
                     {
                         gauntletLayer.IsFocusLayer = false;

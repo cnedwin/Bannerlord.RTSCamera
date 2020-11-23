@@ -5,7 +5,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace RTSCamera.Patch
 {
-    //[HarmonyLib.HarmonyPatch(typeof(FormationMovementComponent), "GetFormationFrame")]
+    [HarmonyLib.HarmonyPatch(typeof(FormationMovementComponent), "GetFormationFrame")]
     public class Patch_FormationMovementComponent
     {
         private static readonly MethodInfo IsUnitDetached =
@@ -17,6 +17,8 @@ namespace RTSCamera.Patch
 
         private static readonly PropertyInfo arrangement =
             typeof(Formation).GetProperty("arragement", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        public static bool isCharging { get; private set; }
 
         public static bool GetFormationFrame_Prefix(ref bool __result, Agent ___Agent, ref FormationCohesionComponent ____cohesionComponent,
             ref WorldPosition formationPosition,
@@ -35,7 +37,7 @@ namespace RTSCamera.Patch
                     formationDirection = formation.GetDirectionOfUnit(___Agent);
 
                     limitIsMultiplier = true;
-                    speedLimit = ____cohesionComponent != null && FormationCohesionComponent.FormationSpeedAdjustmentEnabled ? ____cohesionComponent.GetDesiredSpeedInFormation() : -1f;
+                    speedLimit = ____cohesionComponent != null && FormationCohesionComponent.FormationSpeedAdjustmentEnabled ? ____cohesionComponent.GetDesiredSpeedInFormation(isCharging) : -1f;
                     __result = true;
                     return false;
                 }
