@@ -109,12 +109,12 @@ namespace RTSCamera.View
                     _siegeMissionView.OnDeploymentFinish += OnDeploymentFinish;
                 _deploymentPointDataSources = new List<DeploymentSiegeMachineVM>();
             }
-            dataSource = new MissionOrderVM(MissionScreen.CombatCamera, IsDeployment ? _siegeDeploymentHandler.DeploymentPoints.ToList() : new List<DeploymentPoint>(), new Action<bool>(this.ToggleScreenRotation), IsDeployment, MissionScreen.GetOrderFlagPosition, RefreshVisuals, new ToggleOrderPositionVisibilityDelegate(this.SetSuspendTroopPlacer), OnActivateToggleOrder, OnDeactivateToggleOrder, new OnToggleActivateOrderStateDelegate(this.OnTransferFinished), false);
+            dataSource = new MissionOrderVM(MissionScreen.CombatCamera, IsDeployment ? _siegeDeploymentHandler.DeploymentPoints.ToList<DeploymentPoint>() : new List<DeploymentPoint>(), new Action<bool>(ToggleScreenRotation), IsDeployment, new GetOrderFlagPositionDelegate(MissionScreen.GetOrderFlagPosition), new OnRefreshVisualsDelegate(RefreshVisuals), new ToggleOrderPositionVisibilityDelegate(SetSuspendTroopPlacer), new OnToggleActivateOrderStateDelegate(OnActivateToggleOrder), new OnToggleActivateOrderStateDelegate(OnDeactivateToggleOrder), new OnToggleActivateOrderStateDelegate(OnTransferFinished), false);
             if (IsDeployment)
             {
                 foreach (DeploymentPoint deploymentPoint in _siegeDeploymentHandler.DeploymentPoints)
                 {
-                    DeploymentSiegeMachineVM deploymentSiegeMachineVm = new DeploymentSiegeMachineVM(deploymentPoint, null, MissionScreen.CombatCamera, dataSource.DeploymentController.OnRefreshSelectedDeploymentPoint, dataSource.DeploymentController.OnEntityHover, false);
+                    DeploymentSiegeMachineVM deploymentSiegeMachineVm = new DeploymentSiegeMachineVM(deploymentPoint, null, MissionScreen.CombatCamera, new Action<DeploymentSiegeMachineVM>(dataSource.DeploymentController.OnRefreshSelectedDeploymentPoint), new Action<DeploymentPoint>(dataSource.DeploymentController.OnEntityHover), false);
                     Vec3 origin = deploymentPoint.GameEntity.GetFrame().origin;
                     for (int index = 0; index < deploymentPoint.GameEntity.ChildCount; ++index)
                     {
@@ -256,6 +256,37 @@ namespace RTSCamera.View
             MissionScreen.SetOrderFlagVisibility(!value);
         }
 
+        private void OnTransferFinished()
+        {
+            this.SetLayerEnabled(false);
+        }
+
+        private void SetLayerEnabled(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                if (dataSource == null || dataSource.ActiveTargetState == 0)
+                {
+                    this._orderTroopPlacer.SuspendTroopPlacer = false;
+                }
+                base.MissionScreen.SetOrderFlagVisibility(true);
+                if (gauntletLayer != null)
+                {
+                    ScreenManager.SetSuspendLayer(gauntletLayer, false);
+                }
+                Game.Current.EventManager.TriggerEvent<MissionPlayerToggledOrderViewEvent>(new MissionPlayerToggledOrderViewEvent(true));
+                return;
+            }
+            this._orderTroopPlacer.SuspendTroopPlacer = true;
+            base.MissionScreen.SetOrderFlagVisibility(false);
+            if (gauntletLayer != null)
+            {
+                ScreenManager.SetSuspendLayer(gauntletLayer, true);
+            }
+            base.MissionScreen.SetRadialMenuActiveState(false);
+            Game.Current.EventManager.TriggerEvent<MissionPlayerToggledOrderViewEvent>(new MissionPlayerToggledOrderViewEvent(false));
+        }
+
         void ISiegeDeploymentView.OnEntityHover(GameEntity hoveredEntity)
         {
             if (gauntletLayer.HitTest())
@@ -285,9 +316,6 @@ namespace RTSCamera.View
                 return dataSource.IsFacingSubOrdersShown ? MissionOrderVM.CursorState.Face : MissionOrderVM.CursorState.Move;
             }
         }
-
-        public OnToggleActivateOrderStateDelegate setSuspendTroopPlacer { get; private set; }
-        public OnToggleActivateOrderStateDelegate OnTransferFinished { get; private set; }
 
         private void TickInput(float dt)
         {
