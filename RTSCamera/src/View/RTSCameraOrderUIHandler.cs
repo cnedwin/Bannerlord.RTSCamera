@@ -86,6 +86,11 @@ namespace RTSCamera.View
             Game.Current.EventManager.TriggerEvent(new MissionPlayerToggledOrderViewEvent(false));
         }
 
+        public void OnTransferTroopsFinisedDelegate()
+        {
+            // TODO: Do we have to do something here?
+        }
+
         public override void OnMissionScreenInitialize()
         {
             base.OnMissionScreenInitialize();
@@ -109,12 +114,23 @@ namespace RTSCamera.View
                     _siegeMissionView.OnDeploymentFinish += OnDeploymentFinish;
                 _deploymentPointDataSources = new List<DeploymentSiegeMachineVM>();
             }
-            dataSource = new MissionOrderVM(MissionScreen.CombatCamera, IsDeployment ? _siegeDeploymentHandler.DeploymentPoints.ToList<DeploymentPoint>() : new List<DeploymentPoint>(), new Action<bool>(ToggleScreenRotation), IsDeployment, new GetOrderFlagPositionDelegate(MissionScreen.GetOrderFlagPosition), new OnRefreshVisualsDelegate(RefreshVisuals), new ToggleOrderPositionVisibilityDelegate(SetSuspendTroopPlacer), new OnToggleActivateOrderStateDelegate(OnActivateToggleOrder), new OnToggleActivateOrderStateDelegate(OnDeactivateToggleOrder), new OnToggleActivateOrderStateDelegate(OnTransferFinished), false);
+            dataSource = new MissionOrderVM(MissionScreen.CombatCamera,
+                IsDeployment ? _siegeDeploymentHandler.DeploymentPoints.ToList() : new List<DeploymentPoint>(),
+                ToggleScreenRotation,
+                IsDeployment,
+                MissionScreen.GetOrderFlagPosition,
+                RefreshVisuals,
+                SetSuspendTroopPlacer,
+                OnActivateToggleOrder,
+                OnDeactivateToggleOrder,
+                OnTransferTroopsFinisedDelegate,
+                false);
+
             if (IsDeployment)
             {
                 foreach (DeploymentPoint deploymentPoint in _siegeDeploymentHandler.DeploymentPoints)
                 {
-                    DeploymentSiegeMachineVM deploymentSiegeMachineVm = new DeploymentSiegeMachineVM(deploymentPoint, null, MissionScreen.CombatCamera, new Action<DeploymentSiegeMachineVM>(dataSource.DeploymentController.OnRefreshSelectedDeploymentPoint), new Action<DeploymentPoint>(dataSource.DeploymentController.OnEntityHover), false);
+                    DeploymentSiegeMachineVM deploymentSiegeMachineVm = new DeploymentSiegeMachineVM(deploymentPoint, null, MissionScreen.CombatCamera, dataSource.DeploymentController.OnRefreshSelectedDeploymentPoint, dataSource.DeploymentController.OnEntityHover, false);
                     Vec3 origin = deploymentPoint.GameEntity.GetFrame().origin;
                     for (int index = 0; index < deploymentPoint.GameEntity.ChildCount; ++index)
                     {
@@ -179,7 +195,8 @@ namespace RTSCamera.View
         {
             base.OnMissionScreenTick(dt);
             TickInput(dt);
-            dataSource.Update();
+            // TODO: Should the Tick go somewhere else?
+            //dataSource.Tick(dt);
             if (dataSource.IsToggleOrderShown)
             {
                 if (_orderTroopPlacer.SuspendTroopPlacer && dataSource.ActiveTargetState == 0)
@@ -254,37 +271,6 @@ namespace RTSCamera.View
         {
             _orderTroopPlacer.SuspendTroopPlacer = value;
             MissionScreen.SetOrderFlagVisibility(!value);
-        }
-
-        private void OnTransferFinished()
-        {
-            this.SetLayerEnabled(false);
-        }
-
-        private void SetLayerEnabled(bool isEnabled)
-        {
-            if (isEnabled)
-            {
-                if (dataSource == null || dataSource.ActiveTargetState == 0)
-                {
-                    this._orderTroopPlacer.SuspendTroopPlacer = false;
-                }
-                base.MissionScreen.SetOrderFlagVisibility(true);
-                if (gauntletLayer != null)
-                {
-                    ScreenManager.SetSuspendLayer(gauntletLayer, false);
-                }
-                Game.Current.EventManager.TriggerEvent<MissionPlayerToggledOrderViewEvent>(new MissionPlayerToggledOrderViewEvent(true));
-                return;
-            }
-            this._orderTroopPlacer.SuspendTroopPlacer = true;
-            base.MissionScreen.SetOrderFlagVisibility(false);
-            if (gauntletLayer != null)
-            {
-                ScreenManager.SetSuspendLayer(gauntletLayer, true);
-            }
-            base.MissionScreen.SetRadialMenuActiveState(false);
-            Game.Current.EventManager.TriggerEvent<MissionPlayerToggledOrderViewEvent>(new MissionPlayerToggledOrderViewEvent(false));
         }
 
         void ISiegeDeploymentView.OnEntityHover(GameEntity hoveredEntity)

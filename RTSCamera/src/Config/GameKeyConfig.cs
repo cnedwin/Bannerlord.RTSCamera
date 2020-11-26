@@ -45,7 +45,7 @@ namespace RTSCamera.Config
                 StringId = gameKey.StringId,
                 GroupId = gameKey.GroupId,
                 MainCategoryId = gameKey.MainCategoryId,
-                Key = gameKey.KeyboardKey.InputKey
+                Key = gameKey.DefaultKeyboardKey.InputKey
             };
         }
 
@@ -207,12 +207,12 @@ namespace RTSCamera.Config
 
         public InputKey GetKey(GameKeyEnum gameKeyEnum)
         {
-            return GetGameKey(gameKeyEnum).KeyboardKey.InputKey;
+            return GetGameKey(gameKeyEnum).DefaultKeyboardKey.InputKey;
         }
 
         public void SetKey(GameKeyEnum gameKeyEnum, InputKey inputKey)
         {
-            GetGameKey(gameKeyEnum).KeyboardKey.ChangeKey(inputKey);
+            GetGameKey(gameKeyEnum).DefaultKeyboardKey.ChangeKey(inputKey);
         }
 
         public GameKey GetGameKey(GameKeyEnum gameKeyEnum)
