@@ -89,22 +89,15 @@ namespace RTSCamera.View
         }
         public void OnActivateToggleOrder()
         {
-            exitWithRightClick = true;
-            if (dataSource == null || dataSource.ActiveTargetState == 0)
-                _orderTroopPlacer.SuspendTroopPlacer = false;
-            MissionScreen.SetOrderFlagVisibility(true);
-            if (gauntletLayer != null)
-                ScreenManager.SetSuspendLayer(gauntletLayer, false);
-            Game.Current.EventManager.TriggerEvent(new MissionPlayerToggledOrderViewEvent(true));
+            this.SetLayerEnabled(true);
         }
 
         public void OnDeactivateToggleOrder()
         {
-            _orderTroopPlacer.SuspendTroopPlacer = true;
-            MissionScreen.SetOrderFlagVisibility(false);
-            if (gauntletLayer != null)
-                ScreenManager.SetSuspendLayer(gauntletLayer, true);
-            Game.Current.EventManager.TriggerEvent(new MissionPlayerToggledOrderViewEvent(false));
+            if (!dataSource.TroopController.IsTransferActive)
+            {
+                this.SetLayerEnabled(false);
+            }
         }
 
         public void OnTransferTroopsFinisedDelegate()
