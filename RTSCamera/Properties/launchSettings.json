@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RTSCamera": {
+      "commandName": "Executable",
+      "executablePath": "E:\\Steam\\steamapps\\common\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Bannerlord.exe",
+      "commandLineArgs": "/singleplayer _MODULES_*Bannerlord.Harmony*Bannerlord.ButterLib*Bannerlord.UIExtenderEx*Bannerlord.MBOptionScreen*Bannerlord.MBOptionScreen.MCMv3*Bannerlord.MBOptionScreen.ModLib*Native*SandBoxCore*Sandbox*CustomBattle*StoryMode*BannerPaste*BetterTime*BearMyBanner*AutoTrader*CraftedItemCopyright*XorberaxCutThroughEveryone*DistinguishedService*EquipBestItem*ImprovedGarrisons*MoreSettlementAction*PartyScreenEnhancements*SoundTheAlarm*RealisticBattleAiModule*SettlementRename*SueMoreSpouses*SueLordFromFamily*Telepathy*SettlementStash*RTSCamera*ArmsDealer*zzBannerlordTweaks*CharacterReload*zCulturedStart*EditLord*SaddledEdgeEditor*Cheats*swadian armoury*_MODULES_",
+      "workingDirectory": "E:\\Steam\\steamapps\\common\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client"
+    }
+  }
+}

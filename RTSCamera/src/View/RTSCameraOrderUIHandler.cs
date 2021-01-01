@@ -204,6 +204,8 @@ namespace RTSCamera.View
             dataSource.AfterInitialize();
         }
 
+
+
         public override void OnMissionScreenFinalize()
         {
             base.OnMissionScreenFinalize();
@@ -252,6 +254,7 @@ namespace RTSCamera.View
                 _viewMovie = gauntletLayer.LoadMovie(movieName, dataSource);
             }
         }
+
 
         public override void OnMissionScreenTick(float dt)
         {
@@ -413,7 +416,7 @@ namespace RTSCamera.View
 
         private void TickInput(float dt)
         {
-            if (base.Input.IsGameKeyDown(72) && !dataSource.IsToggleOrderShown)
+            if (base.Input.IsGameKeyDown(77) && !dataSource.IsToggleOrderShown)
             {
                 _holdTime += dt;
                 if (_holdTime >= this._minHoldTimeForActivation)
@@ -422,7 +425,7 @@ namespace RTSCamera.View
                     _holdExecuted = true;
                 }
             }
-            else if (!Input.IsGameKeyDown(72))
+            else if (!Input.IsGameKeyDown(77))
             {
                 if (_holdExecuted && dataSource.IsToggleOrderShown)
                 {
@@ -487,39 +490,39 @@ namespace RTSCamera.View
             int pressedIndex = -1;
             if ((!isGamepadActive || dataSource.IsToggleOrderShown) && !Input.IsControlDown())
             {
-                if (base.Input.IsGameKeyPressed(54))
+                if (base.Input.IsGameKeyPressed(59))
                 {
                     pressedIndex = 0;
                 }
-                else if (base.Input.IsGameKeyPressed(55))
+                else if (base.Input.IsGameKeyPressed(60))
                 {
                     pressedIndex = 1;
                 }
-                else if (base.Input.IsGameKeyPressed(56))
+                else if (base.Input.IsGameKeyPressed(61))
                 {
                     pressedIndex = 2;
                 }
-                else if (base.Input.IsGameKeyPressed(57))
+                else if (base.Input.IsGameKeyPressed(62))
                 {
                     pressedIndex = 3;
                 }
-                else if (base.Input.IsGameKeyPressed(58))
+                else if (base.Input.IsGameKeyPressed(63))
                 {
                     pressedIndex = 4;
                 }
-                else if (base.Input.IsGameKeyPressed(59))
+                else if (base.Input.IsGameKeyPressed(64))
                 {
                     pressedIndex = 5;
                 }
-                else if (base.Input.IsGameKeyPressed(60))
+                else if (base.Input.IsGameKeyPressed(65))
                 {
                     pressedIndex = 6;
                 }
-                else if (base.Input.IsGameKeyPressed(61))
+                else if (base.Input.IsGameKeyPressed(66))
                 {
                     pressedIndex = 7;
                 }
-                else if (base.Input.IsGameKeyPressed(62))
+                else if (base.Input.IsGameKeyPressed(67))
                 {
                     pressedIndex = 8;
                 }
@@ -527,51 +530,51 @@ namespace RTSCamera.View
             if (pressedIndex > -1)
                 dataSource.OnGiveOrder(pressedIndex);
             int formationTroopIndex = -1;
-            if (base.Input.IsGameKeyPressed(63))
+            if (base.Input.IsGameKeyPressed(68))
             {
                 formationTroopIndex = 100;
             }
-            else if (base.Input.IsGameKeyPressed(64))
+            else if (base.Input.IsGameKeyPressed(69))
             {
                 formationTroopIndex = 0;
             }
-            else if (base.Input.IsGameKeyPressed(65))
+            else if (base.Input.IsGameKeyPressed(70))
             {
                 formationTroopIndex = 1;
             }
-            else if (base.Input.IsGameKeyPressed(66))
+            else if (base.Input.IsGameKeyPressed(71))
             {
                 formationTroopIndex = 2;
             }
-            else if (base.Input.IsGameKeyPressed(67))
+            else if (base.Input.IsGameKeyPressed(72))
             {
                 formationTroopIndex = 3;
             }
-            else if (base.Input.IsGameKeyPressed(68))
+            else if (base.Input.IsGameKeyPressed(73))
             {
                 formationTroopIndex = 4;
             }
-            else if (base.Input.IsGameKeyPressed(69))
+            else if (base.Input.IsGameKeyPressed(74))
             {
                 formationTroopIndex = 5;
             }
-            else if (base.Input.IsGameKeyPressed(70))
+            else if (base.Input.IsGameKeyPressed(75))
             {
                 formationTroopIndex = 6;
             }
-            else if (base.Input.IsGameKeyPressed(71))
+            else if (base.Input.IsGameKeyPressed(76))
             {
                 formationTroopIndex = 7;
             }
-            if (base.Input.IsGameKeyPressed(73))
+            if (base.Input.IsGameKeyPressed(78))
             {
                 dataSource.SelectNextTroop(1);
             }
-            else if (base.Input.IsGameKeyPressed(74))
+            else if (base.Input.IsGameKeyPressed(79))
             {
                 dataSource.SelectNextTroop(-1);
             }
-            else if (base.Input.IsGameKeyPressed(75))
+            else if (base.Input.IsGameKeyPressed(80))
             {
                 dataSource.ToggleSelectionForCurrentTroop();
             }
@@ -579,7 +582,7 @@ namespace RTSCamera.View
             {
                 dataSource.OnSelect(formationTroopIndex);
             }
-            if (base.Input.IsGameKeyPressed(53))
+            if (base.Input.IsGameKeyPressed(58))
             {
                 dataSource.ViewOrders();
             }

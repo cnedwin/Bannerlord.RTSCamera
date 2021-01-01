@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>D:\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\RTSCamera\bin\Win64_Shipping_Client\</OutputPath>
+    <OutputPath>E:\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\RTSCamera\bin\Win64_Shipping_Client\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -127,9 +127,5 @@
       <HintPath>$(GamePath)bin\Win64_Shipping_Client\TaleWorlds.ObjectSystem.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="Copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\Modules\RTSCamera\bin\Win64_Shipping_Client\&quot;&#xD;&#xA;&#xD;&#xA;Copy &quot;$(TargetDir)0Harmony.dll&quot; &quot;$(SolutionDir)..\Modules\RTSCamera\bin\Win64_Shipping_Client\&quot;&#xD;&#xA;Copy &quot;$(TargetDir)KdTreeLib.dll&quot; &quot;$(SolutionDir)..\Modules\RTSCamera\bin\Win64_Shipping_Client\&quot;&#xD;&#xA;xcopy &quot;$(SolutionDir)..\Modules&quot; &quot;$(GamePath)\Modules&quot; /E /C /I /Y" />
-  </Target>
 
 </Project>
