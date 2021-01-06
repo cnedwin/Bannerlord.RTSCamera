@@ -1,8 +1,7 @@
 .vs/
-source/package/
 source/*/bin/
 source/*/obj/
-*.DotSettings*
+*.DotSettings.user
 *.csproj.user
 *.dll
 *.html
