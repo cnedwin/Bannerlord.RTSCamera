@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	  <GamePath>E:\Games\155\</GamePath>
+	  <GamePath>E:\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\</GamePath>
   </PropertyGroup>
 </Project>
