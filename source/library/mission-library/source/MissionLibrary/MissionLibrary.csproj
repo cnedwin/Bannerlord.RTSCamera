@@ -116,8 +116,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="src\HotKey\View\" />
-  </ItemGroup>
-
 </Project>

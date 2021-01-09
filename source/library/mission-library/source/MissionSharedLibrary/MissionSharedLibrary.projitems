@@ -9,17 +9,17 @@
     <Import_RootNamespace>MissionSharedLibrary</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)src\Controller\InputControllerFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\Controller\MissionBehaviors\InputController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\Controller\MissionStarter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\HotKey\Category\AGameKeyCategoryManagerExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\HotKey\Category\GameKeyCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\Config\HotKey\GameKeyConfigBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\Config\HotKey\IGameKeyConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\Config\HotKey\GeneralGameKeyConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Config\HotKey\IGameKeyConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\Config\HotKey\SerializedGameKeyCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\Config\MissionConfigBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\Controller\Camera\CameraControllerManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Controller\InputControllerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Controller\MissionBehaviors\InputController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Controller\MissionStartingManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\HotKey\Category\AGameKeyCategoryManagerExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\HotKey\Category\GameKeyCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\HotKey\Category\GeneralGameKeyCategories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\HotKey\GameKeyCategoryManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\Initializer.cs" />
@@ -28,20 +28,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)src\View\MenuManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\MissionMenuViewBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\MissionMenuVMBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\View\NumericVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\OptionView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\OptionVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Basic\NumericVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Basic\TextViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\HotKey\MissionLibraryGameKeyConfigVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\HotKey\MissionLibraryGameKeyGroupVM.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\ActionOptionViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\NumericOptionViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\BoolOptionViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\MenuClassCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\OptionCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\OptionClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Basic\TextViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\OptionColumnViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\ActionOptionViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\BoolOptionViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\NumericOptionViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\OptionViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\Selection\SelectionItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\Selection\SelectionOptionData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\Selection\SelectionOptionViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)src\View\ViewModelCollection\Options\OptionViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildThisFileDirectory)CopyAssets.targets" />
   <Import Project="$(MSBuildThisFileDirectory)\*.props" />

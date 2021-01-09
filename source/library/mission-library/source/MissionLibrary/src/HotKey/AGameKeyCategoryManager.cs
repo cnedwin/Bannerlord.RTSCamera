@@ -4,15 +4,11 @@ using MissionLibrary.Provider;
 
 namespace MissionLibrary.HotKey
 {
-    public abstract class AGameKeyCategoryManagerTag : ITag<AGameKeyCategoryManagerTag>
-    {
-        public AGameKeyCategoryManagerTag Self => this;
-    }
-    public abstract class AGameKeyCategoryManager : AGameKeyCategoryManagerTag
+    public abstract class AGameKeyCategoryManager : ITag<AGameKeyCategoryManager>
     {
         public static AGameKeyCategoryManager Get()
         {
-            return Global.GetProvider<AGameKeyCategoryManagerTag, AGameKeyCategoryManager>();
+            return Global.GetProvider<AGameKeyCategoryManager>();
         }
 
         public abstract Dictionary<string, IProvider<AGameKeyCategory>> Categories { get; }
@@ -20,5 +16,6 @@ namespace MissionLibrary.HotKey
         public abstract AGameKeyCategory GetCategory(string categoryId);
 
         public abstract T GetCategory<T>(string categoryId) where T : AGameKeyCategory;
+        public AGameKeyCategoryManager Self => this;
     }
 }

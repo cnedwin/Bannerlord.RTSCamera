@@ -26,12 +26,6 @@ namespace MissionLibrary
             return ProviderManager.GetProvider<T>();
         }
 
-        public static TU GetProvider<T, TU>() where T : class, ITag<T> where TU : class, T
-
-        {
-            return ProviderManager.GetProvider<T, TU>();
-        }
-
         public static void Clear()
         {
             _isInitialized = false;

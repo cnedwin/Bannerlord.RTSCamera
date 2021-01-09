@@ -4,6 +4,7 @@ using MissionSharedLibrary.Controller.Camera;
 using MissionSharedLibrary.HotKey;
 using MissionSharedLibrary.Provider;
 using System;
+using MissionSharedLibrary.Controller;
 using MissionSharedLibrary.HotKey.Category;
 using MissionSharedLibrary.View;
 
@@ -27,8 +28,9 @@ namespace MissionSharedLibrary
         {
             RegisterProvider(() => new GameKeyCategoryManager(), new Version(1, 0));
             RegisterProvider(() => new CameraControllerManager(), new Version(1, 0));
-            var menuVersion = new Version(1, 0, 0);
-            RegisterProvider(() => new MenuManager(menuVersion), menuVersion);
+            RegisterProvider(() => new InputControllerFactory(), new Version(1, 0));
+            RegisterProvider(() => new MissionStartingManager(), new Version(1, 0));
+            RegisterProvider(() => new MenuManager(), new Version(1, 0));
         }
 
         public static void RegisterProvider<T>(Func<ITag<T>> creator, Version providerVersion) where T : class, ITag<T>

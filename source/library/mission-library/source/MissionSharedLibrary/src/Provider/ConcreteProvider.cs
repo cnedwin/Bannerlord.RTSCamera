@@ -8,10 +8,10 @@ namespace MissionSharedLibrary.Provider
     public class ConcreteProvider<T> : IProvider<T> where T : class, ITag<T>
     {
         private readonly Func<ITag<T>> _creator;
-        private T _provider;
+        private T _value;
         public Version ProviderVersion { get; }
 
-        public T Value => _provider ??= _creator?.Invoke().Self;
+        public T Value => _value ??= _creator?.Invoke().Self;
 
         public ConcreteProvider(Func<ITag<T>> creator, Version providerVersion)
         {

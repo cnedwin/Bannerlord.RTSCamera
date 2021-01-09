@@ -5,7 +5,7 @@ using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions;
 
-namespace MissionSharedLibrary.src.View.ViewModelCollection.Options
+namespace MissionSharedLibrary.View.ViewModelCollection.Options
 {
     public class ActionOptionViewModel : OptionViewModel, IOption
     {

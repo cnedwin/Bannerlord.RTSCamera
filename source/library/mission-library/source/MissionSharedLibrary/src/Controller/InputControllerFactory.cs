@@ -1,5 +1,5 @@
 ﻿using MissionLibrary.Controller;
-using MissionSharedLibrary.src.Controller.MissionBehaviors;
+using MissionSharedLibrary.Controller.MissionBehaviors;
 using TaleWorlds.MountAndBlade;
 
 namespace MissionSharedLibrary.Controller

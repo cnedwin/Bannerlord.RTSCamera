@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MissionLibrary.Config.HotKey;
-using MissionSharedLibrary.HotKey.Category;
+﻿using MissionSharedLibrary.HotKey.Category;
 using TaleWorlds.InputSystem;
 using TaleWorlds.MountAndBlade;
 
-namespace MissionSharedLibrary.src.Controller.MissionBehaviors
+namespace MissionSharedLibrary.Controller.MissionBehaviors
 {
     public class InputController : MissionLogic
     {

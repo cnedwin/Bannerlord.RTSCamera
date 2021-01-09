@@ -2,7 +2,7 @@
 using TaleWorlds.Library;
 using MathF = TaleWorlds.Library.MathF;
 
-namespace MissionSharedLibrary.View
+namespace MissionSharedLibrary.View.ViewModelCollection.Basic
 {
     public class NumericVM : ViewModel
     {

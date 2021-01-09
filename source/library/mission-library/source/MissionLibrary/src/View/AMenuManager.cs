@@ -1,21 +1,17 @@
 ﻿using MissionLibrary.Provider;
+using TaleWorlds.Library;
 
 namespace MissionLibrary.View
 {
-    public abstract class AMenuMangerTag : ITag<AMenuMangerTag>
-    {
-        public AMenuMangerTag Self => this;
-    }
-
-    public abstract class AMenuManager : AMenuMangerTag
+    public abstract class AMenuManager : ITag<AMenuManager>
     {
         public static AMenuManager Get()
         {
-            return Global.GetProvider<AMenuMangerTag, AMenuManager>();
+            return Global.GetProvider<AMenuManager>();
         }
         
-        public abstract void AddOptionClass(IOptionClass optionClass);
+        public abstract IMenuClassCollection MenuClassCollection { get; }
 
-        public abstract string MovieName { get; }
+        public AMenuManager Self => this;
     }
 }

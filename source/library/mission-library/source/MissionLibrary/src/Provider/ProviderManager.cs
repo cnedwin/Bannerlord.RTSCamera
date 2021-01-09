@@ -28,17 +28,5 @@ namespace MissionLibrary.Provider
 
             return tProvider.Value;
         }
-
-        public TU GetProvider<T, TU>() where T : class, ITag<T> where TU: class, T
-
-        {
-            if (!_providers.TryGetValue(typeof(T), out IProvider provider) || !(provider is IProvider<T> tProvider) ||
-                !(tProvider.Value is TU result))
-            {
-                return null;
-            }
-
-            return result;
-        }
     }
 }

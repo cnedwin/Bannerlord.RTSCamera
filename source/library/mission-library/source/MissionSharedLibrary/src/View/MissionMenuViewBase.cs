@@ -4,19 +4,19 @@ using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Missions;
 
 namespace MissionSharedLibrary.View
 {
-    public class MissionMenuViewBase : MissionView
+    public abstract class MissionMenuViewBase : MissionView
     {
         private readonly string _movieName;
         private MissionMenuVMBase _dataSource;
         protected GauntletLayer GauntletLayer;
         private GauntletMovie _movie;
 
-        protected Func<MissionMenuVMBase> GetDataSource;
         public bool IsActivated { get; set; }
 
         public MissionMenuViewBase(int viewOrderPriority, string movieName)
@@ -24,6 +24,8 @@ namespace MissionSharedLibrary.View
             ViewOrderPriorty = viewOrderPriority;
             _movieName = movieName;
         }
+
+        protected abstract MissionMenuVMBase GetDataSource();
 
         public override void OnMissionScreenFinalize()
         {
@@ -45,9 +47,9 @@ namespace MissionSharedLibrary.View
         public void ActivateMenu()
         {
             IsActivated = true;
-            if (GetDataSource == null)
+            _dataSource = GetDataSource();
+            if (_dataSource == null)
                 return;
-            _dataSource = GetDataSource?.Invoke();
             GauntletLayer = new GauntletLayer(ViewOrderPriorty) { IsFocusLayer = true };
             GauntletLayer.InputRestrictions.SetInputRestrictions();
             GauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("GenericPanelGameKeyCategory"));
